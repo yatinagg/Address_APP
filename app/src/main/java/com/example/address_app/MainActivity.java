@@ -17,13 +17,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN_TIME_OUT=5000;
+    private static int SPLASH_SCREEN_TIME_OUT = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Retro.getAddress();
-        Retro.postData();
-        Retro.getAddress();
+        //Address address = new Address("Karan", "XYZ street", null, "GZB", "UP", "201010", 1500, 105, "2345672345");
+        //Retro.postData(address);
+        //Retro.getAddress();
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -31,13 +32,12 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i=new Intent(MainActivity.this,HomeActivity.class);
+                Intent i = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(i);
                 finish();
             }
         }, SPLASH_SCREEN_TIME_OUT);
     }
-
 
 
 }

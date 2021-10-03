@@ -10,19 +10,19 @@ public class Address {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private int id;
     @SerializedName("firstname")
     @Expose
     private String firstname;
     @SerializedName("lastname")
     @Expose
-    private Object lastname;
+    private String lastname;
     @SerializedName("address1")
     @Expose
     private String address1;
     @SerializedName("address2")
     @Expose
-    private Object address2;
+    private String address2;
     @SerializedName("city")
     @Expose
     private String city;
@@ -34,48 +34,45 @@ public class Address {
     private String phone;
     @SerializedName("state_name")
     @Expose
-    private Object stateName;
+    private String stateName;
     @SerializedName("alternative_phone")
     @Expose
-    private Object alternativePhone;
+    private String alternativePhone;
     @SerializedName("company")
     @Expose
-    private Object company;
+    private String company;
     @SerializedName("state_id")
     @Expose
-    private Integer stateId;
+    private int stateId;
     @SerializedName("country_id")
     @Expose
-    private Integer countryId;
+    private int countryId;
 
-    public Address(String firstname, String address1, String city, int countryId, int stateId, String zipcode, String phone) {
+    public Address() {
+    }
+
+    public Address(String firstname, String address1, String address2, String city, String stateName, String zipcode, int stateId, int countryId, String phone) {
         this.firstname = firstname;
         this.address1 = address1;
+        this.address2 = address2;
         this.city = city;
+        this.stateName = stateName;
         this.zipcode = zipcode;
-        this.phone = phone;
         this.stateId = stateId;
         this.countryId = countryId;
+        this.phone = phone;
     }
 
     @Override
     public String toString() {
-        return "Address{" +
-                "firstname='" + firstname + '\'' +
-                ", address1='" + address1 + '\'' +
-                ", city='" + city + '\'' +
-                ", zipcode='" + zipcode + '\'' +
-                ", phone='" + phone + '\'' +
-                ", stateId=" + stateId +
-                ", countryId=" + countryId +
-                '}';
+        return address1 + " " + city + " " + stateName + "\n" + zipcode;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -87,11 +84,11 @@ public class Address {
         this.firstname = firstname;
     }
 
-    public Object getLastname() {
+    public String getLastname() {
         return lastname;
     }
 
-    public void setLastname(Object lastname) {
+    public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
@@ -103,11 +100,11 @@ public class Address {
         this.address1 = address1;
     }
 
-    public Object getAddress2() {
+    public String getAddress2() {
         return address2;
     }
 
-    public void setAddress2(Object address2) {
+    public void setAddress2(String address2) {
         this.address2 = address2;
     }
 
@@ -135,43 +132,43 @@ public class Address {
         this.phone = phone;
     }
 
-    public Object getStateName() {
+    public String getStateName() {
         return stateName;
     }
 
-    public void setStateName(Object stateName) {
+    public void setStateName(String stateName) {
         this.stateName = stateName;
     }
 
-    public Object getAlternativePhone() {
+    public String getAlternativePhone() {
         return alternativePhone;
     }
 
-    public void setAlternativePhone(Object alternativePhone) {
+    public void setAlternativePhone(String alternativePhone) {
         this.alternativePhone = alternativePhone;
     }
 
-    public Object getCompany() {
+    public String getCompany() {
         return company;
     }
 
-    public void setCompany(Object company) {
+    public void setCompany(String company) {
         this.company = company;
     }
 
-    public Integer getStateId() {
+    public int getStateId() {
         return stateId;
     }
 
-    public void setStateId(Integer stateId) {
+    public void setStateId(int stateId) {
         this.stateId = stateId;
     }
 
-    public Integer getCountryId() {
+    public int getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(Integer countryId) {
+    public void setCountryId(int countryId) {
         this.countryId = countryId;
     }
 

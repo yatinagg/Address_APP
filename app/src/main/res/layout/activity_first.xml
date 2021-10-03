@@ -8,8 +8,8 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="50dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="50dp">
 
 
         <EditText
@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/name"/>
+            android:hint="@string/name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editTextAddressLine1"
@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
             android:ems="10"
-            android:inputType="textPostalAddress"
-            android:hint="@string/address_line_1"/>
+            android:hint="@string/address_line_1"
+            android:inputType="textPostalAddress" />
 
         <EditText
             android:id="@+id/editTextAddressLine2"
@@ -36,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
             android:ems="10"
-            android:inputType="textPostalAddress"
-            android:hint="@string/address_line_2"/>
+            android:hint="@string/address_line_2"
+            android:inputType="textPostalAddress" />
 
         <EditText
             android:id="@+id/editTextLandmark"
@@ -45,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
             android:ems="10"
-            android:inputType="textPostalAddress"
-            android:hint="@string/landmark"/>
+            android:hint="@string/landmark"
+            android:inputType="textPostalAddress" />
 
         <EditText
             android:id="@+id/editTextCity"
@@ -54,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
             android:ems="10"
-            android:inputType="textPostalAddress"
-            android:hint="@string/city"/>
+            android:hint="@string/city"
+            android:inputType="textPostalAddress" />
 
         <EditText
             android:id="@+id/editTextState"
@@ -63,8 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
             android:ems="10"
-            android:inputType="textPostalAddress"
-            android:hint="@string/state"/>
+            android:hint="@string/state"
+            android:inputType="textPostalAddress" />
 
         <EditText
             android:id="@+id/editTextPincode"
@@ -72,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
             android:ems="10"
-            android:inputType="number"
-            android:hint="@string/pincode"/>
+            android:hint="@string/pincode"
+            android:inputType="number" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,11 +97,11 @@
 
         <ImageButton
             android:id="@+id/imageButton3"
-            android:layout_marginStart="200dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:background="@mipmap/arrow_foreground" />
+            android:layout_marginStart="200dp"
+            android:background="@mipmap/arrow_foreground"
+            android:onClick="onClick" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

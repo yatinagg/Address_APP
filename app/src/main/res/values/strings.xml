@@ -10,4 +10,11 @@
     <string name="state">State</string>
     <string name="pincode">Pincode</string>
     <string name="make_this_my_default_address">Make this my default address</string>
+    <string name="intent_display">%s\'s age is %d years and height is %.2f feet and he studies in %dth class.</string>
+    <string name="post_request">addresses?token=52e04d83e87e509f07982e6ac851e2d2c67d1d0eabc4fe78&amp;address[firstname]=%s&amp;address[address1]=%s&amp;address[city]=%s&amp;address[country_id]=%d&amp;address[state_id]=%d&amp;address[zipcode]=%s&amp;address[phone]=%s</string>
+    <string-array name="options_entries">
+        <item>     Select</item>
+        <item>Update</item>
+        <item>Delete</item>
+    </string-array>
 </resources>
