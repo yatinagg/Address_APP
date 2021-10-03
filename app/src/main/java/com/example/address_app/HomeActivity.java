@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
             }
             ActionBar actionBar = getSupportActionBar();
             // providing title for the ActionBar
-            actionBar.setTitle("Addresses");
+            actionBar.setTitle(R.string.addresses);
 
             TextView textView = (TextView) findViewById(R.id.label1);
             List<AddressView> addressViews = new ArrayList<>();
@@ -56,7 +56,6 @@ public class HomeActivity extends AppCompatActivity {
             }
             AddressViewAdapter AddressArrayAdapter = new AddressViewAdapter(this, addressViews);
 
-            // create the instance of the ListView to set the numbersViewAdapter
             ListView addressListView = findViewById(R.id.listView);
             addressListView.setAdapter(AddressArrayAdapter);
 
@@ -74,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         // providing title for the ActionBar
-        actionBar.setTitle("Addresses");
+        actionBar.setTitle(R.string.addresses);
 
     }
 }

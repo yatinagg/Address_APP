@@ -21,6 +21,6 @@ public class Second_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
         ActionBar actionBar = getSupportActionBar();
         // providing title for the ActionBar
-        actionBar.setTitle("Addresses");
+        actionBar.setTitle(R.string.addresses);
     }
 }

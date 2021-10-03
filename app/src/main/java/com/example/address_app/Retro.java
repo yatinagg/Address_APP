@@ -34,12 +34,6 @@ public class Retro {
                 if (response.isSuccessful()) {
                     HomeActivity.addressList = response.body();
                     HomeActivity.lenAddress = HomeActivity.addressList.size();
-                    System.out.println(HomeActivity.lenAddress);
-                    System.out.println(HomeActivity.addressList.size());
-                    int ind = 0;
-                    for (Address address : HomeActivity.addressList) {
-                        ind++;
-                    }
                 }
             }
 

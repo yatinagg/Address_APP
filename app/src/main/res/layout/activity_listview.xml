@@ -33,6 +33,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="6dp"
+        android:visibility="invisible"
         app:srcCompat="@drawable/default_icon" />
 
 

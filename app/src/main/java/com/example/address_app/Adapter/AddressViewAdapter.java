@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -38,13 +39,10 @@ public class AddressViewAdapter extends ArrayAdapter<AddressView> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        // convertView which is recyclable view
         View currentItemView = convertView;
 
-        // of the recyclable view is null then inflate the custom layout for the same
         if (currentItemView == null) {
             currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.activity_listview, parent, false);
-
         }
 
         // get the position of the view from the ArrayAdapter
@@ -56,19 +54,21 @@ public class AddressViewAdapter extends ArrayAdapter<AddressView> {
         TextView textView = currentItemView.findViewById(R.id.label1);
         textView.setText(currentNumberPosition.getAddress().toString());
 
+
+        if(position == 0)
+            defaultImage.setVisibility(View.VISIBLE);
+
+
         Spinner spinnerView = currentItemView.findViewById(R.id.action_bar_spinner);
         spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println("postion : " + i);
                 if (i == 1) {
-                    System.out.println("Update" + textView.getText());
                     Intent intent = new Intent(getContext(), First_Activity.class);
                     intent.putExtra("Mode", "Update");
                     intent.putExtra("Id", currentNumberPosition.getAddress().getId());
                     getContext().startActivity(intent);
                 } else if (i == 2) {
-                    System.out.println("Delete" + textView.getText());
                     Retro.deleteData(currentNumberPosition.getAddress());
                     Intent intent = new Intent(getContext(), MainActivity.class);
                     getContext().startActivity(intent);
