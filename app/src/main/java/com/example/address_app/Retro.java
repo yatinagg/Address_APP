@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Retro {
 
     private static String token = "52e04d83e87e509f07982e6ac851e2d2c67d1d0eabc4fe78";
+
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(Api.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
