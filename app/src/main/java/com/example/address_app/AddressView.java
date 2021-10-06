@@ -20,10 +20,6 @@ public class AddressView {
         return address;
     }
 
-    public int getOptionId() {
-        return optionId;
-    }
-
     public int getDefaultId() {
         return defaultId;
     }
