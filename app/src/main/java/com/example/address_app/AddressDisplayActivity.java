@@ -2,7 +2,6 @@ package com.example.address_app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.ActionBar;
