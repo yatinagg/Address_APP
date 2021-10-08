@@ -2,13 +2,10 @@ package com.example.address_app;
 
 //import static com.example.address_app.Retro.POST_URL;
 
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
-
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

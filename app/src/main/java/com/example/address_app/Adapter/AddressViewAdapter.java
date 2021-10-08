@@ -2,33 +2,26 @@ package com.example.address_app.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.address_app.Address;
+import com.example.address_app.AddressEntryActivity;
 import com.example.address_app.AddressView;
-import com.example.address_app.First_Activity;
 import com.example.address_app.HomeActivity;
-import com.example.address_app.MainActivity;
 import com.example.address_app.R;
 import com.example.address_app.Retro;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
-import java.util.jar.JarOutputStream;
 
 public class AddressViewAdapter extends ArrayAdapter<AddressView> {
     public AddressViewAdapter(@NonNull Context context, List<AddressView> addressList) {
@@ -48,36 +41,53 @@ public class AddressViewAdapter extends ArrayAdapter<AddressView> {
         // get the position of the view from the ArrayAdapter
         AddressView currentNumberPosition = getItem(position);
 
+        ImageView imageView = currentItemView.findViewById(R.id.imageViewOptions);
+
         ImageView defaultImage = currentItemView.findViewById(R.id.default_status);
         defaultImage.setImageResource(currentNumberPosition.getDefaultId());
 
         TextView textView = currentItemView.findViewById(R.id.label1);
         textView.setText(currentNumberPosition.getAddress().toString());
 
-
-        if(position == 0)
+        if (position == HomeActivity.defaultAddress)
             defaultImage.setVisibility(View.VISIBLE);
 
-
-        Spinner spinnerView = currentItemView.findViewById(R.id.action_bar_spinner);
-        spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 1) {
-                    Intent intent = new Intent(getContext(), First_Activity.class);
+        // on click listener for update and delete options
+        imageView.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(getContext(), view);
+            popupMenu.inflate(R.menu.menu_item_options);
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                if (menuItem.getItemId() == R.id.menu_option_update) {
+                    Intent intent = new Intent(getContext(), AddressEntryActivity.class);
                     intent.putExtra("Mode", "Update");
                     intent.putExtra("Id", currentNumberPosition.getAddress().getId());
                     getContext().startActivity(intent);
-                } else if (i == 2) {
-                    Retro.deleteData(currentNumberPosition.getAddress());
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    getContext().startActivity(intent);
+                    return true;
+                } else if (menuItem.getItemId() == R.id.menu_option_delete) {
+                    Handler handler = new Handler();
+                    ProgressBar progressBar = new ProgressBar(getContext());
+                    progressBar.setVisibility(View.VISIBLE);
+                    new Thread(() -> {
+                        float currProgress = 0;
+                        HomeActivity.flag = false;
+                        progressBar.setProgress(0);
+                        Retro.deleteData(currentNumberPosition.getAddress());
+                        Retro.getAddress();
+                        while (!HomeActivity.flag) {
+                            currProgress += 0.1;
+                            progressBar.setProgress((int) currProgress);
+                        }
+                        handler.post(() -> {
+                            progressBar.setProgress(100);
+                            System.out.println("Done");
+                            getContext().startActivity(new Intent(getContext(), HomeActivity.class));
+                        });
+                    }).start();
+                    return true;
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
+                return false;
+            });
+            popupMenu.show();
         });
 
         return currentItemView;

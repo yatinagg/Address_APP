@@ -2,9 +2,8 @@ package com.example.address_app;
 
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.common.util.ScopeUtil;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -17,31 +16,36 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Retro {
 
-    private static String token = "52e04d83e87e509f07982e6ac851e2d2c67d1d0eabc4fe78";
+    private static final String token = "52e04d83e87e509f07982e6ac851e2d2c67d1d0eabc4fe78";
 
-    private static Retrofit retrofit = new Retrofit.Builder()
+    private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(Api.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-    private static Api retrofitAPI = retrofit.create(Api.class);
+    private static final Api retrofitAPI = retrofit.create(Api.class);
 
-    protected static void getAddress() {
+    public static void getAddress() {
 
         Call<List<Address>> call = retrofitAPI.getAddress(token);
         call.enqueue(new Callback<List<Address>>() {
             @Override
-            public void onResponse(Call<List<Address>> call, Response<List<Address>> response) {
+            public void onResponse(@NonNull Call<List<Address>> call, @NonNull Response<List<Address>> response) {
                 Log.d("output", String.valueOf(response.body()));
                 if (response.isSuccessful()) {
                     HomeActivity.addressList = response.body();
-                    HomeActivity.lenAddress = HomeActivity.addressList.size();
+                    if (HomeActivity.addressList != null)
+                        HomeActivity.lenAddress = HomeActivity.addressList.size();
+                    else
+                        HomeActivity.lenAddress = 0;
+                    HomeActivity.flag = true;
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Address>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Address>> call, @NonNull Throwable t) {
                 // displaying an error message in toast
                 Log.d("output", "failure");
+                HomeActivity.flag = true;
             }
         });
     }
@@ -52,7 +56,7 @@ public class Retro {
 
         call.enqueue(new Callback<Address>() {
             @Override
-            public void onResponse(Call<Address> call, Response<Address> response) {
+            public void onResponse(@NonNull Call<Address> call, @NonNull Response<Address> response) {
                 Log.d("output", "response" + response.body());
                 if (response.isSuccessful()) {
                     HomeActivity.addressList.add(address);
@@ -61,7 +65,7 @@ public class Retro {
             }
 
             @Override
-            public void onFailure(Call<Address> call, Throwable t) {
+            public void onFailure(@NonNull Call<Address> call, @NonNull Throwable t) {
                 Log.d("output", "Error found is : " + t.getMessage());
             }
         });
@@ -70,20 +74,22 @@ public class Retro {
     public static void putData(Address address) {
 
         Call<Address> call = retrofitAPI.updateAddress(address.getId(), token, address.getFirstname(), address.getAddress1(), address.getAddress2(), address.getCity(), address.getStateName(), address.getZipcode(), address.getStateId(), address.getCountryId(), address.getPhone());
-
         call.enqueue(new Callback<Address>() {
             @Override
-            public void onResponse(Call<Address> call, Response<Address> response) {
+            public void onResponse(@NonNull Call<Address> call, @NonNull Response<Address> response) {
                 Log.d("output", "Data updated to API");
-                Address responseFromAPI = response.body();
+                Log.d("output", address.getStateName());
                 getAddress();
+                HomeActivity.flag = true;
             }
 
             @Override
-            public void onFailure(Call<Address> call, Throwable t) {
+            public void onFailure(@NonNull Call<Address> call, @NonNull Throwable t) {
                 Log.d("output", "Error found is : " + t.getMessage());
+                HomeActivity.flag = true;
             }
         });
+
     }
 
     public static void deleteData(Address address) {
@@ -92,15 +98,16 @@ public class Retro {
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 Log.d("output", "Data removed from API");
                 getAddress();
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Log.d("output", "Error found is : " + t.getMessage());
             }
         });
+
     }
 }

@@ -10,12 +10,17 @@
     <string name="state">State</string>
     <string name="pincode">Pincode</string>
     <string name="make_this_my_default_address">Make this my default address</string>
-    <string name="intent_display">%s\'s age is %d years and height is %.2f feet and he studies in %dth class.</string>
     <string name="post_request">addresses?token=52e04d83e87e509f07982e6ac851e2d2c67d1d0eabc4fe78&amp;address[firstname]=%s&amp;address[address1]=%s&amp;address[city]=%s&amp;address[country_id]=%d&amp;address[state_id]=%d&amp;address[zipcode]=%s&amp;address[phone]=%s</string>
     <string name="addresses">Addresses</string>
-    <string-array name="options_entries">
-        <item>     Select</item>
-        <item>Update</item>
-        <item>Delete</item>
-    </string-array>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="kindly_add_shipping_billing_address_and_enjoy_faster_checkout">Kindly add shipping / billing address and enjoy faster checkout</string>
+    <string name="create_address">Create Address</string>
+    <string name="required_field">Required Field</string>
+    <string name="invalid">Invalid</string>
+    <string name="submit_button">Submit Button</string>
+    <string name="add_button">Add Button</string>
+    <string name="options">Options</string>
+    <string name="splash_screen">Splash Screen</string>
+    <string name="default_status">Default Status</string>
 </resources>

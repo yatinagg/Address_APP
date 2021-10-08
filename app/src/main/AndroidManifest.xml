@@ -14,15 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Address_APP">
         <activity
-            android:name=".First_Activity"
+            android:name=".AddressEntryActivity"
             android:exported="true"
             android:parentActivityName=".HomeActivity"/>
         <activity
-            android:name=".Second_Activity"
+            android:name=".AddressDisplayActivity"
             android:exported="true"/>
         <activity android:name=".HomeActivity"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

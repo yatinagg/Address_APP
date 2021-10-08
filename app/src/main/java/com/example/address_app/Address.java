@@ -1,7 +1,6 @@
 package com.example.address_app;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,9 +13,6 @@ public class Address {
     @SerializedName("firstname")
     @Expose
     private String firstname;
-    @SerializedName("lastname")
-    @Expose
-    private String lastname;
     @SerializedName("address1")
     @Expose
     private String address1;
@@ -35,12 +31,6 @@ public class Address {
     @SerializedName("state_name")
     @Expose
     private String stateName;
-    @SerializedName("alternative_phone")
-    @Expose
-    private String alternativePhone;
-    @SerializedName("company")
-    @Expose
-    private String company;
     @SerializedName("state_id")
     @Expose
     private int stateId;
@@ -63,9 +53,19 @@ public class Address {
         this.phone = phone;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return address1 + " " + city + " " + stateName + "\n" + zipcode;
+        StringBuilder result = new StringBuilder();
+        result.append(address1);
+        result.append(address2);
+        result.append(", ");
+        result.append(city);
+        result.append(", ");
+        if (stateName != null)
+            result.append(stateName);
+        result.append(zipcode);
+        return result.toString();
     }
 
     public int getId() {
@@ -82,14 +82,6 @@ public class Address {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public String getAddress1() {
@@ -128,10 +120,6 @@ public class Address {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getStateName() {
         return stateName;
     }
@@ -140,36 +128,12 @@ public class Address {
         this.stateName = stateName;
     }
 
-    public String getAlternativePhone() {
-        return alternativePhone;
-    }
-
-    public void setAlternativePhone(String alternativePhone) {
-        this.alternativePhone = alternativePhone;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
     public int getStateId() {
         return stateId;
     }
 
-    public void setStateId(int stateId) {
-        this.stateId = stateId;
-    }
-
     public int getCountryId() {
         return countryId;
-    }
-
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
     }
 
 }

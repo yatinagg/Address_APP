@@ -2,13 +2,11 @@ package com.example.address_app;
 
 public class AddressView {
 
-    private Address address;
-    private int optionId;
-    private int defaultId;
+    private final Address address;
+    private final int defaultId;
 
-    public AddressView(int optionId, Address address, int defaultId) {
+    public AddressView(Address address, int defaultId) {
         this.address = address;
-        this.optionId = optionId;
         this.defaultId = defaultId;
     }
 
