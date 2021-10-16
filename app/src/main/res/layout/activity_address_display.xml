@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="blocksDescendants"
@@ -15,7 +15,7 @@
         tools:layout_editor_absoluteY="1dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButtonDisplay"
+        android:id="@+id/floating_action_button_display_add_address_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
@@ -23,8 +23,8 @@
         android:backgroundTint="#FF9800"
         android:clickable="true"
         android:contentDescription="@string/create_address"
+        android:focusable="true"
         android:foreground="@drawable/ic_baseline_add"
         android:padding="10dp"
-        tools:ignore="RtlHardcoded"
-        android:focusable="true" />
+        tools:ignore="RtlHardcoded" />
 </FrameLayout>

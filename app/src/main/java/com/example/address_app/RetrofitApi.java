@@ -1,6 +1,6 @@
 package com.example.address_app;
 
-//import static com.example.address_app.Retro.POST_URL;
+//import static com.example.address_app.RetrofitBuilder.POST_URL;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface Api {
+public interface RetrofitApi {
 
     String BASE_URL = "https://shop-spree.herokuapp.com/api/ams/user/";
 

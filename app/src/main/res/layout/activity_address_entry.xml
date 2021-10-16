@@ -11,7 +11,7 @@
         android:padding="50dp">
 
         <EditText
-            android:id="@+id/editTextPersonName"
+            android:id="@+id/et_person_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
@@ -22,7 +22,7 @@
             android:maxLength="20" />
 
         <EditText
-            android:id="@+id/editTextAddressLine1"
+            android:id="@+id/et_address_line1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
@@ -33,7 +33,7 @@
             android:maxLength="20" />
 
         <EditText
-            android:id="@+id/editTextAddressLine2"
+            android:id="@+id/et_address_line2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
@@ -44,7 +44,7 @@
             android:maxLength="20" />
 
         <EditText
-            android:id="@+id/editTextLandmark"
+            android:id="@+id/et_landmark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
@@ -55,7 +55,7 @@
             android:maxLength="20" />
 
         <EditText
-            android:id="@+id/editTextCity"
+            android:id="@+id/et_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
@@ -66,7 +66,7 @@
             android:maxLength="20" />
 
         <EditText
-            android:id="@+id/editTextState"
+            android:id="@+id/et_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
@@ -77,7 +77,7 @@
             android:maxLength="20" />
 
         <EditText
-            android:id="@+id/editTextPincode"
+            android:id="@+id/et_pincode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="25dp"
@@ -93,25 +93,26 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_default_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/make_this_my_default_address" />
+                android:text="@string/make_this_my_default_address"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
+            android:id="@+id/image_button_submit_entry"
+            android:layout_width="100dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="150dp"
             android:background="@mipmap/arrow_foreground"
             android:contentDescription="@string/submit_button"
             android:onClick="onClick" />

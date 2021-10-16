@@ -7,9 +7,13 @@
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/drawable/arrow_background.xml" value="0.2703125" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/drawable/ic_baseline_add.xml" value="0.2703125" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout-v23/address_display.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_address_display.xml" value="0.13177083333333334" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_address_entry.xml" value="0.13177083333333334" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_blank_address.xml" value="0.25" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_first.xml" value="0.2265625" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_listview.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_screen_splash.xml" value="0.13177083333333334" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_second.xml" value="0.152" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_test_list.xml" value="0.2" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/activity_testlistview.xml" value="0.1203125" />
@@ -20,6 +24,7 @@
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/fragment_first.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/fragment_second.xml" value="0.264" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/layout1.xml" value="0.264" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/listview.xml" value="0.13177083333333334" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/pop_up_menu.xml" value="0.13125" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/layout/screen_splash.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Address_APP/app/src/main/res/menu/menu_item_options.xml" value="0.25416666666666665" />

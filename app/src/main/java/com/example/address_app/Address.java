@@ -62,8 +62,10 @@ public class Address {
         result.append(", ");
         result.append(city);
         result.append(", ");
-        if (stateName != null)
+        if (stateName != null) {
             result.append(stateName);
+            result.append(", ");
+        }
         result.append(zipcode);
         return result.toString();
     }
