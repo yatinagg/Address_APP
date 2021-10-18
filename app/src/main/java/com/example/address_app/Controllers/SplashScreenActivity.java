@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,17 +22,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please Wait!!");
-        progressDialog.setMessage("Wait!!");
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //progressDialog.show();
-        RetrofitBuilder.getAddress(progressDialog);
         // splash screen
         Objects.requireNonNull(getSupportActionBar()).hide();
+        //getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_screen_splash);
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);

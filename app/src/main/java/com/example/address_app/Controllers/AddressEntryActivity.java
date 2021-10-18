@@ -77,6 +77,9 @@ public class AddressEntryActivity extends AppCompatActivity {
 
         Typeface face = ResourcesCompat.getFont(this, R.font.mulish_variable_font_wght);
         // set text
+        if(intent.getBooleanExtra("Default", false)){
+            checkBox.setChecked(true);
+        }
         etName.setText(address.getFirstname());
         etName.setTypeface(face);
         etAddressLine1.setText(address.getAddress1());

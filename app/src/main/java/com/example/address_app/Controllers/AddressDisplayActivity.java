@@ -79,12 +79,13 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
 
 
     @Override
-    public void onButtonClick(int index, int position, Address address) {
+    public void onButtonClick(int index, int position, Address address, boolean defaultAddress) {
         if (index == 0) {
             Intent intent = new Intent(this, AddressEntryActivity.class);
             intent.putExtra("Mode", "Update");
             intent.putExtra("Id", address.getId());
             intent.putExtra("Position", position);
+            intent.putExtra("Default",defaultAddress);
             this.startActivity(intent);
         } else if (index == 1) {
             ProgressDialog progressDialog = new ProgressDialog(this);
