@@ -17,7 +17,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.example.address_app.AddressView;
 import com.example.address_app.Controllers.AddressEntryActivity;
-import com.example.address_app.Controllers.HomeActivity;
+import com.example.address_app.Controllers.AddressDisplayActivity;
 import com.example.address_app.Controllers.OnButtonClickListener;
 import com.example.address_app.R;
 
@@ -57,7 +57,7 @@ public class AddressViewAdapter extends ArrayAdapter<AddressView> {
         Typeface face = ResourcesCompat.getFont(getContext(), R.font.mulish_variable_font_wght);
         textView.setTypeface(face);
 
-        if (position == HomeActivity.defaultAddress)
+        if (position == AddressDisplayActivity.defaultAddress)
             defaultImage.setVisibility(View.VISIBLE);
 
         // on click listener for update and delete options
@@ -67,12 +67,12 @@ public class AddressViewAdapter extends ArrayAdapter<AddressView> {
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if (menuItem.getItemId() == R.id.menu_option_update) {
                     Log.d("output", "update");
-                    onButtonClickListener.onButtonClick(0, position, currentNumberPosition.getAddress(),position == HomeActivity.defaultAddress);
+                    onButtonClickListener.onButtonClick(0, position, currentNumberPosition.getAddress(), position == AddressDisplayActivity.defaultAddress);
                     addressViews.set(position, new AddressView(AddressEntryActivity.address, R.drawable.default_icon));
                     return true;
                 } else if (menuItem.getItemId() == R.id.menu_option_delete) {
                     addressViews.remove(position);
-                    onButtonClickListener.onButtonClick(1, position, currentNumberPosition.getAddress(),position == HomeActivity.defaultAddress);
+                    onButtonClickListener.onButtonClick(1, position, currentNumberPosition.getAddress(), position == AddressDisplayActivity.defaultAddress);
                     return true;
                 }
                 return false;

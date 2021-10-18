@@ -16,11 +16,8 @@
         <activity
             android:name=".Controllers.AddressEntryActivity"
             android:exported="true"
-            android:parentActivityName=".Controllers.HomeActivity"/>
-        <activity
-            android:name=".Controllers.AddressDisplayActivity"
-            android:exported="true"/>
-        <activity android:name=".Controllers.HomeActivity"/>
+            android:parentActivityName=".Controllers.AddressDisplayActivity"/>
+        <activity android:name=".Controllers.AddressDisplayActivity"/>
         <activity
             android:name=".Controllers.SplashScreenActivity"
             android:exported="true">

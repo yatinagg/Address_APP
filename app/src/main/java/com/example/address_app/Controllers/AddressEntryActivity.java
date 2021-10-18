@@ -54,14 +54,14 @@ public class AddressEntryActivity extends AppCompatActivity {
         mode = intent.getStringExtra("Mode");
         int id = intent.getIntExtra("Id", 0);
         ind = -1;
-        for (int i = 0; i < HomeActivity.lenAddress; i++) {
-            if (HomeActivity.addressList.get(i).getId() == id)
+        for (int i = 0; i < AddressDisplayActivity.addressList.size(); i++) {
+            if (AddressDisplayActivity.addressList.get(i).getId() == id)
                 ind = i;
         }
         if (ind == -1)
             address = new Address();
         else
-            address = HomeActivity.addressList.get(ind);
+            address = AddressDisplayActivity.addressList.get(ind);
 
         // get views
         etName = findViewById(R.id.et_person_name);
@@ -77,7 +77,7 @@ public class AddressEntryActivity extends AppCompatActivity {
 
         Typeface face = ResourcesCompat.getFont(this, R.font.mulish_variable_font_wght);
         // set text
-        if(intent.getBooleanExtra("Default", false)){
+        if (intent.getBooleanExtra("Default", false)) {
             checkBox.setChecked(true);
         }
         etName.setText(address.getFirstname());
@@ -141,9 +141,9 @@ public class AddressEntryActivity extends AppCompatActivity {
         }
 
         if (ind != -1 && checkBox.isChecked())
-            HomeActivity.defaultAddress = ind;
-        else if (ind != -1 && HomeActivity.defaultAddress == ind && !checkBox.isChecked())
-            HomeActivity.defaultAddress = 0;
+            AddressDisplayActivity.defaultAddress = ind;
+        else if (ind != -1 && AddressDisplayActivity.defaultAddress == ind && !checkBox.isChecked())
+            AddressDisplayActivity.defaultAddress = 0;
 
         // update mode
         if (mode != null && mode.equals("Update")) {
@@ -192,14 +192,14 @@ public class AddressEntryActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call<Address> call, @NonNull Response<Address> response) {
                     Log.d("output", response + "res");
-                    HomeActivity.addressList.add(add);
-                    startActivity(new Intent(AddressEntryActivity.this, HomeActivity.class));
+                    AddressDisplayActivity.addressList.add(add);
+                    startActivity(new Intent(AddressEntryActivity.this, AddressDisplayActivity.class));
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Address> call, @NonNull Throwable t) {
                     progressDialog.dismiss();
-                    startActivity(new Intent(AddressEntryActivity.this, HomeActivity.class));
+                    startActivity(new Intent(AddressEntryActivity.this, AddressDisplayActivity.class));
                 }
             });
         }

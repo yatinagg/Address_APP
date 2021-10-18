@@ -7,9 +7,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.address_app.Controllers.AddressDisplayActivity;
-import com.example.address_app.Controllers.HomeActivity;
-
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -26,32 +23,6 @@ public class RetrofitBuilder {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     public static final RetrofitApi retrofitAPI = retrofit.create(RetrofitApi.class);
-
-    public static void getAddress(ProgressDialog progressDialog) {
-
-        Call<List<Address>> call = retrofitAPI.getAddress(token);
-        call.enqueue(new Callback<List<Address>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Address>> call, @NonNull Response<List<Address>> response) {
-                Log.d("output", String.valueOf(response.body()));
-                if (response.isSuccessful()) {
-                    HomeActivity.addressList = response.body();
-                    if (HomeActivity.addressList != null)
-                        HomeActivity.lenAddress = HomeActivity.addressList.size();
-                    else
-                        HomeActivity.lenAddress = 0;
-                    progressDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Address>> call, @NonNull Throwable t) {
-                // displaying an error message in toast
-                Log.d("output", "failure");
-                progressDialog.dismiss();
-            }
-        });
-    }
 
     public static void deleteData(Address address, ProgressDialog progressDialog) {
 
