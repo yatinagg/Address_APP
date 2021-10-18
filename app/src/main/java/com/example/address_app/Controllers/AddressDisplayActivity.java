@@ -83,7 +83,6 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
 
     void setData() {
         // blank address page
-        Log.d("control", "setData");
         View emptyView = findViewById(R.id.empty_view);
         ListView listView = findViewById(R.id.list_view);
         if (AddressDisplayActivity.addressList.size() != 0) {
@@ -133,7 +132,6 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
     }
 
     public void notifyDataChange() {
-        Log.d("control", "notify");
         if (AddressDisplayActivity.AddressArrayAdapter == null) {
             AddressDisplayActivity.AddressArrayAdapter = new AddressViewAdapter(this, AddressDisplayActivity.addressViews, this);
             ListView addressListView = findViewById(R.id.list_view);
