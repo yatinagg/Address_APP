@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/image_view_options"
-        android:layout_width="8dp"
+        android:layout_width="5dp"
         android:layout_height="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/tv_address_display"
         android:layout_width="300dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:padding="15dp"
         android:textColor="#9B9B9B"
         android:textSize="20sp" />

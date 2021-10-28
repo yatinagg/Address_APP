@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -46,7 +47,6 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
         addressDisplayActivity = this;
         ActionBar actionBar = getSupportActionBar();
         setContentView(R.layout.activity_address_display);
-
         // providing title for the ActionBar
         if (actionBar != null)
             actionBar.setTitle(R.string.addresses);
@@ -85,7 +85,7 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
         // blank address page
         View emptyView = findViewById(R.id.empty_view);
         ListView listView = findViewById(R.id.list_view);
-        if (AddressDisplayActivity.addressList.size() != 0) {
+        if (AddressDisplayActivity.addressList != null && AddressDisplayActivity.addressList.size() != 0) {
             emptyView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             setAddressListView();

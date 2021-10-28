@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ import androidx.core.content.res.ResourcesCompat;
 import com.example.address_app.Address;
 import com.example.address_app.R;
 import com.example.address_app.RetrofitBuilder;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +50,9 @@ public class AddressEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_entry);
         ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         // providing title for the ActionBar
         if (actionBar != null)
             actionBar.setTitle("Add Address");
@@ -124,6 +130,12 @@ public class AddressEntryActivity extends AppCompatActivity {
             valid = false;
         }
         return valid;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        onBackPressed();
+        return true;
     }
 
     // on click listener
