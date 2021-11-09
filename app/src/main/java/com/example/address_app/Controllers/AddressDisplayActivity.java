@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -18,9 +17,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.example.address_app.Adapter.AddressViewAdapter;
+import com.example.address_app.Adapter.AddressListAdapter;
 import com.example.address_app.Address;
-import com.example.address_app.AddressView;
 import com.example.address_app.R;
 import com.example.address_app.RetrofitBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,11 +32,16 @@ import retrofit2.Response;
 
 public class AddressDisplayActivity extends AppCompatActivity implements OnButtonClickListener {
 
-    public static List<Address> addressList = null;
-    public static List<AddressView> addressViews = null;
-    public static AddressViewAdapter AddressArrayAdapter = null;
-    public static int defaultAddress = 0;
+    public List<Address> addressList = null;
+    public static List<Address> addressViews = null;
+    public AddressListAdapter AddressArrayAdapter = null;
+    public static int defaultAddress = -1;
     public static AddressDisplayActivity addressDisplayActivity;
+    private View emptyView;
+    private FloatingActionButton floatingActionButtonDisplayAddAddressDisplay;
+    private ListView addressListView;
+    private TextView tvBlankAddress;
+    private TextView tvBlankAddressDescription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
         addressDisplayActivity = this;
         ActionBar actionBar = getSupportActionBar();
         setContentView(R.layout.activity_address_display);
+        setupView();
         // providing title for the ActionBar
         if (actionBar != null)
             actionBar.setTitle(R.string.addresses);
@@ -64,7 +68,7 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
             public void onResponse(@NonNull Call<List<Address>> call, @NonNull Response<List<Address>> response) {
                 Log.d("output", String.valueOf(response.body()));
                 if (response.isSuccessful()) {
-                    AddressDisplayActivity.addressList = response.body();
+                    addressList = response.body();
                     progressDialog.dismiss();
                 }
                 setData();
@@ -81,31 +85,33 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
 
     }
 
+    void setupView() {
+        emptyView = findViewById(R.id.empty_view);
+        floatingActionButtonDisplayAddAddressDisplay = findViewById(R.id.floating_action_button_display_add_address_display);
+        addressListView = findViewById(R.id.list_view);
+        tvBlankAddress = findViewById(R.id.tv_blank_address);
+        tvBlankAddressDescription = findViewById(R.id.tv_blank_address_description);
+        FloatingActionButton button1 = findViewById(R.id.floating_action_button);
+        floatingActionButtonDisplayAddAddressDisplay.setOnClickListener(view -> startActivity(new Intent(view.getContext(), AddressEntryActivity.class)));
+        button1.setOnClickListener(view -> startActivity(new Intent(view.getContext(), AddressEntryActivity.class)));
+    }
+
     void setData() {
         // blank address page
-        View emptyView = findViewById(R.id.empty_view);
-        ListView listView = findViewById(R.id.list_view);
-        if (AddressDisplayActivity.addressList != null && AddressDisplayActivity.addressList.size() != 0) {
+        if (addressList != null && addressList.size() != 0) {
             emptyView.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            addressListView.setVisibility(View.VISIBLE);
             setAddressListView();
         }
         // address list page
         else {
             emptyView.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.GONE);
-            FloatingActionButton floatingActionButtonDisplayAddAddressDisplay = findViewById(R.id.floating_action_button_display_add_address_display);
+            addressListView.setVisibility(View.GONE);
             floatingActionButtonDisplayAddAddressDisplay.setVisibility(View.GONE);
-            TextView tvBlankAddress = findViewById(R.id.tv_blank_address);
-            TextView tvBlankAddressDescription = findViewById(R.id.tv_blank_address_description);
+
             Typeface face = ResourcesCompat.getFont(this, R.font.mulish_variable_font_wght);
             tvBlankAddress.setTypeface(face);
             tvBlankAddressDescription.setTypeface(face);
-            FloatingActionButton button1 = findViewById(R.id.floating_action_button);
-            button1.setOnClickListener(view -> {
-                Intent intent = new Intent(view.getContext(), AddressEntryActivity.class);
-                startActivity(intent);
-            });
         }
     }
 
@@ -115,32 +121,28 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
 
     public void setAddressListView() {
 
-        FloatingActionButton floatingActionButtonDisplayAddAddressDisplay = findViewById(R.id.floating_action_button_display_add_address_display);
+
         floatingActionButtonDisplayAddAddressDisplay.setVisibility(View.VISIBLE);
         AddressDisplayActivity.addressViews = new ArrayList<>();
 
-        floatingActionButtonDisplayAddAddressDisplay.setOnClickListener(view -> startActivity(new Intent(view.getContext(), AddressEntryActivity.class)));
 
-        for (int i = 0; i < AddressDisplayActivity.addressList.size(); i++) {
-            AddressView addressView = new AddressView(AddressDisplayActivity.addressList.get(i), R.drawable.default_icon);
-            AddressDisplayActivity.addressViews.add(addressView);
-        }
-        AddressDisplayActivity.AddressArrayAdapter = new AddressViewAdapter(this, AddressDisplayActivity.addressViews, this);
+        AddressDisplayActivity.addressViews.addAll(addressList);
+        AddressArrayAdapter = new AddressListAdapter(this, AddressDisplayActivity.addressViews, this);
 
-        ListView addressListView = findViewById(R.id.list_view);
-        addressListView.setAdapter(AddressDisplayActivity.AddressArrayAdapter);
+
+        addressListView.setAdapter(AddressArrayAdapter);
     }
 
     public void notifyDataChange() {
-        if (AddressDisplayActivity.AddressArrayAdapter == null) {
-            AddressDisplayActivity.AddressArrayAdapter = new AddressViewAdapter(this, AddressDisplayActivity.addressViews, this);
+        if (AddressArrayAdapter == null) {
+            AddressArrayAdapter = new AddressListAdapter(this, AddressDisplayActivity.addressViews, this);
             ListView addressListView = findViewById(R.id.list_view);
-            addressListView.setAdapter(AddressDisplayActivity.AddressArrayAdapter);
+            addressListView.setAdapter(AddressArrayAdapter);
         } else {
             // lets find all the duplicates and do all the updating
             // finally notify the adapter/listview
-            AddressDisplayActivity.AddressArrayAdapter.notifyDataSetChanged();
-            if (AddressDisplayActivity.addressList.size() == 0) {
+            AddressArrayAdapter.notifyDataSetChanged();
+            if (addressList.size() == 0) {
                 setData();
             }
         }
@@ -160,14 +162,13 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
         if (index == 0) {
             Intent intent = new Intent(this, AddressEntryActivity.class);
             intent.putExtra("Mode", "Update");
-            intent.putExtra("Id", address.getId());
             intent.putExtra("Position", position);
-            intent.putExtra("Default", defaultAddress);
+            intent.putExtra("Id", address.getId());
             this.startActivity(intent);
         } else if (index == 1) {
             ProgressDialog progressDialog = new ProgressDialog(this);
             RetrofitBuilder.deleteData(address, progressDialog);
-            AddressDisplayActivity.addressList.remove(position);
+            addressList.remove(position);
             System.out.println("Done");
         }
     }

@@ -23,8 +23,6 @@ import com.example.address_app.Address;
 import com.example.address_app.R;
 import com.example.address_app.RetrofitBuilder;
 
-import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +38,8 @@ public class AddressEntryActivity extends AppCompatActivity {
     private EditText etPincode;
     public static Address address;
     private String mode = "Create";
-    private int ind;
+    private int position;
+    private int id;
     private CheckBox checkBox;
 
 
@@ -58,16 +57,13 @@ public class AddressEntryActivity extends AppCompatActivity {
             actionBar.setTitle("Add Address");
         Intent intent = getIntent();
         mode = intent.getStringExtra("Mode");
-        int id = intent.getIntExtra("Id", 0);
-        ind = -1;
-        for (int i = 0; i < AddressDisplayActivity.addressList.size(); i++) {
-            if (AddressDisplayActivity.addressList.get(i).getId() == id)
-                ind = i;
-        }
-        if (ind == -1)
+        position = intent.getIntExtra("Position", -1);
+        id = intent.getIntExtra("Id", -1);
+
+        if (position == -1)
             address = new Address();
         else
-            address = AddressDisplayActivity.addressList.get(ind);
+            address = AddressDisplayActivity.getInstance().addressList.get(position);
 
         // get views
         etName = findViewById(R.id.et_person_name);
@@ -152,14 +148,16 @@ public class AddressEntryActivity extends AppCompatActivity {
             return;
         }
 
-        if (ind != -1 && checkBox.isChecked())
-            AddressDisplayActivity.defaultAddress = ind;
-        else if (ind != -1 && AddressDisplayActivity.defaultAddress == ind && !checkBox.isChecked())
-            AddressDisplayActivity.defaultAddress = 0;
+
+        if (id != -1 && checkBox.isChecked())
+            AddressDisplayActivity.defaultAddress = id;
+        else if (id != -1 && AddressDisplayActivity.defaultAddress == id && !checkBox.isChecked())
+            AddressDisplayActivity.defaultAddress = -1;
 
         // update mode
         if (mode != null && mode.equals("Update")) {
             System.out.println(zipCode);
+            address = AddressDisplayActivity.getInstance().addressList.get(position);
             address.setFirstname(name);
             address.setAddress1(address1);
             address.setAddress2(address2);
@@ -204,7 +202,7 @@ public class AddressEntryActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call<Address> call, @NonNull Response<Address> response) {
                     Log.d("output", response + "res");
-                    AddressDisplayActivity.addressList.add(add);
+                    AddressDisplayActivity.getInstance().addressList.add(add);
                     startActivity(new Intent(AddressEntryActivity.this, AddressDisplayActivity.class));
                 }
 

@@ -15,23 +15,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.example.address_app.AddressView;
-import com.example.address_app.Controllers.AddressEntryActivity;
+import com.example.address_app.Address;
 import com.example.address_app.Controllers.AddressDisplayActivity;
+import com.example.address_app.Controllers.AddressEntryActivity;
 import com.example.address_app.Controllers.OnButtonClickListener;
 import com.example.address_app.R;
 
 import java.util.List;
 
-public class AddressViewAdapter extends ArrayAdapter<AddressView> {
+public class AddressListAdapter extends ArrayAdapter<Address> {
 
     private final OnButtonClickListener onButtonClickListener;
-    public static List<AddressView> addressViews;
+    public static List<Address> addressList;
 
-    public AddressViewAdapter(@NonNull Context context, List<AddressView> addressViews, OnButtonClickListener onButtonClickListener) {
-        super(context, 0, addressViews);
+    public AddressListAdapter(@NonNull Context context, List<Address> addressList, OnButtonClickListener onButtonClickListener) {
+        super(context, 0, addressList);
         this.onButtonClickListener = onButtonClickListener;
-        AddressViewAdapter.addressViews = addressViews;
+        AddressListAdapter.addressList = addressList;
     }
 
     @NonNull
@@ -45,19 +45,20 @@ public class AddressViewAdapter extends ArrayAdapter<AddressView> {
         }
 
         // get the position of the view from the ArrayAdapter
-        AddressView currentNumberPosition = getItem(position);
+        Address currentNumberPosition = getItem(position);
 
         ImageView imageView = currentItemView.findViewById(R.id.image_view_options);
 
         ImageView defaultImage = currentItemView.findViewById(R.id.default_status);
-        defaultImage.setImageResource(currentNumberPosition.getDefaultId());
 
         TextView textView = currentItemView.findViewById(R.id.tv_address_display);
-        textView.setText(currentNumberPosition.getAddress().toString());
+        textView.setText(currentNumberPosition.toString());
         Typeface face = ResourcesCompat.getFont(getContext(), R.font.mulish_variable_font_wght);
         textView.setTypeface(face);
 
-        if (position == AddressDisplayActivity.defaultAddress)
+        if (currentNumberPosition.getId() == AddressDisplayActivity.defaultAddress)
+            defaultImage.setVisibility(View.VISIBLE);
+        if (AddressDisplayActivity.defaultAddress == -1 && position == 0)
             defaultImage.setVisibility(View.VISIBLE);
 
         // on click listener for update and delete options
@@ -67,12 +68,12 @@ public class AddressViewAdapter extends ArrayAdapter<AddressView> {
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if (menuItem.getItemId() == R.id.menu_option_update) {
                     Log.d("output", "update");
-                    onButtonClickListener.onButtonClick(0, position, currentNumberPosition.getAddress(), position == AddressDisplayActivity.defaultAddress);
-                    addressViews.set(position, new AddressView(AddressEntryActivity.address, R.drawable.default_icon));
+                    onButtonClickListener.onButtonClick(0, position, currentNumberPosition, position == AddressDisplayActivity.defaultAddress);
+                    addressList.set(position, AddressEntryActivity.address);
                     return true;
                 } else if (menuItem.getItemId() == R.id.menu_option_delete) {
-                    addressViews.remove(position);
-                    onButtonClickListener.onButtonClick(1, position, currentNumberPosition.getAddress(), position == AddressDisplayActivity.defaultAddress);
+                    addressList.remove(position);
+                    onButtonClickListener.onButtonClick(1, position, currentNumberPosition, position == AddressDisplayActivity.defaultAddress);
                     return true;
                 }
                 return false;
