@@ -1,4 +1,4 @@
-package com.example.address_app;
+package com.example.address_app.Pojos;
 
 import androidx.annotation.NonNull;
 

@@ -2,7 +2,6 @@ package com.example.address_app.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.example.address_app.Address;
 import com.example.address_app.Controllers.AddressDisplayActivity;
 import com.example.address_app.Controllers.AddressEntryActivity;
 import com.example.address_app.Controllers.OnButtonClickListener;
+import com.example.address_app.Pojos.Address;
 import com.example.address_app.R;
 
 import java.util.List;
@@ -58,8 +57,10 @@ public class AddressListAdapter extends ArrayAdapter<Address> {
 
         if (currentNumberPosition.getId() == AddressDisplayActivity.defaultAddress)
             defaultImage.setVisibility(View.VISIBLE);
-        if (AddressDisplayActivity.defaultAddress == -1 && position == 0)
+        if (AddressDisplayActivity.defaultAddress == -1 && position == 0) {
             defaultImage.setVisibility(View.VISIBLE);
+            AddressDisplayActivity.defaultAddress = addressList.get(0).getId();
+        }
 
         // on click listener for update and delete options
         imageView.setOnClickListener(view -> {
@@ -67,13 +68,12 @@ public class AddressListAdapter extends ArrayAdapter<Address> {
             popupMenu.inflate(R.menu.menu_item_options);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if (menuItem.getItemId() == R.id.menu_option_update) {
-                    Log.d("output", "update");
-                    onButtonClickListener.onButtonClick(0, position, currentNumberPosition, position == AddressDisplayActivity.defaultAddress);
+                    onButtonClickListener.onButtonClick(0, position, currentNumberPosition, addressList.get(position).getId() == AddressDisplayActivity.defaultAddress);
                     addressList.set(position, AddressEntryActivity.address);
                     return true;
                 } else if (menuItem.getItemId() == R.id.menu_option_delete) {
+                    onButtonClickListener.onButtonClick(1, position, currentNumberPosition, addressList.get(position).getId() == AddressDisplayActivity.defaultAddress);
                     addressList.remove(position);
-                    onButtonClickListener.onButtonClick(1, position, currentNumberPosition, position == AddressDisplayActivity.defaultAddress);
                     return true;
                 }
                 return false;

@@ -2,6 +2,8 @@ package com.example.address_app;
 
 //import static com.example.address_app.RetrofitBuilder.POST_URL;
 
+import com.example.address_app.Pojos.Address;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -41,7 +43,7 @@ public interface RetrofitApi {
                                 @Query("token") String token,
                                 @Field("address[firstname]") String firstname,
                                 @Field("address[address1]") String address1,
-                                @Field("address[address1]") String address2,
+                                @Field("address[address2]") String address2,
                                 @Field("address[city]") String city,
                                 @Field("address[state_name]") String state_name,
                                 @Field("address[zipcode]") String pinCode,

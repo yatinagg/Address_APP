@@ -1,8 +1,5 @@
 package com.example.address_app.Controllers;
 
-import static com.example.address_app.RetrofitBuilder.retrofitAPI;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,18 +13,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NavUtils;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.example.address_app.Address;
+import com.example.address_app.Pojos.Address;
 import com.example.address_app.R;
 import com.example.address_app.RetrofitBuilder;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
-public class AddressEntryActivity extends AppCompatActivity {
+public class AddressEntryActivity extends AppCompatActivity implements ApiCallStatusChecker {
 
 
     private EditText etName;
@@ -36,6 +32,9 @@ public class AddressEntryActivity extends AppCompatActivity {
     private EditText etCity;
     private EditText etState;
     private EditText etPincode;
+    private EditText etLandmark;
+    private TextView tvDefaultText;
+    private ConstraintLayout progressEntry;
     public static Address address;
     private String mode = "Create";
     private int position;
@@ -45,7 +44,6 @@ public class AddressEntryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //addressEntryActivity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_entry);
         ActionBar actionBar = getSupportActionBar();
@@ -55,6 +53,26 @@ public class AddressEntryActivity extends AppCompatActivity {
         // providing title for the ActionBar
         if (actionBar != null)
             actionBar.setTitle("Add Address");
+
+        setupView();
+        setData();
+    }
+
+    private void setupView() {
+        // get views
+        etName = findViewById(R.id.et_person_name);
+        etAddressLine1 = findViewById(R.id.et_address_line1);
+        etAddressLine2 = findViewById(R.id.et_address_line2);
+        etCity = findViewById(R.id.et_city);
+        etState = findViewById(R.id.et_state);
+        etPincode = findViewById(R.id.et_pincode);
+        checkBox = findViewById(R.id.check_box);
+        etLandmark = findViewById(R.id.et_landmark);
+        tvDefaultText = findViewById(R.id.tv_default_text);
+        progressEntry = findViewById(R.id.progress_entry);
+    }
+
+    private void setData() {
         Intent intent = getIntent();
         mode = intent.getStringExtra("Mode");
         position = intent.getIntExtra("Position", -1);
@@ -65,23 +83,10 @@ public class AddressEntryActivity extends AppCompatActivity {
         else
             address = AddressDisplayActivity.getInstance().addressList.get(position);
 
-        // get views
-        etName = findViewById(R.id.et_person_name);
-        etAddressLine1 = findViewById(R.id.et_address_line1);
-        etAddressLine2 = findViewById(R.id.et_address_line2);
-        etCity = findViewById(R.id.et_city);
-        etState = findViewById(R.id.et_state);
-        etPincode = findViewById(R.id.et_pincode);
-        EditText etLandmark = findViewById(R.id.et_landmark);
-        checkBox = findViewById(R.id.check_box);
-        TextView tvDefaultText = findViewById(R.id.tv_default_text);
-
-
-        Typeface face = ResourcesCompat.getFont(this, R.font.mulish_variable_font_wght);
-        // set text
         if (intent.getBooleanExtra("Default", false)) {
             checkBox.setChecked(true);
         }
+        Typeface face = ResourcesCompat.getFont(this, R.font.mulish_variable_font_wght);
         etName.setText(address.getFirstname());
         etName.setTypeface(face);
         etAddressLine1.setText(address.getAddress1());
@@ -96,7 +101,6 @@ public class AddressEntryActivity extends AppCompatActivity {
         etPincode.setText(address.getZipcode());
         etPincode.setTypeface(face);
         tvDefaultText.setTypeface(face);
-
     }
 
     // validate text fields
@@ -148,7 +152,6 @@ public class AddressEntryActivity extends AppCompatActivity {
             return;
         }
 
-
         if (id != -1 && checkBox.isChecked())
             AddressDisplayActivity.defaultAddress = id;
         else if (id != -1 && AddressDisplayActivity.defaultAddress == id && !checkBox.isChecked())
@@ -165,56 +168,23 @@ public class AddressEntryActivity extends AppCompatActivity {
             address.setStateName(state);
             address.setZipcode(zipCode);
 
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            Call<Address> call = retrofitAPI.updateAddress(address.getId(), RetrofitBuilder.token, address.getFirstname(), address.getAddress1(), address.getAddress2(), address.getCity(), address.getStateName(), address.getZipcode(), address.getStateId(), address.getCountryId(), address.getPhone());
-
-            progressDialog.setTitle("Please Wait!!");
-            progressDialog.setMessage("Wait!!");
-            progressDialog.setCancelable(false);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.show();
-            call.enqueue(new Callback<Address>() {
-                @Override
-                public void onResponse(@NonNull Call<Address> call, @NonNull Response<Address> response) {
-                    progressDialog.dismiss();
-                    NavUtils.navigateUpFromSameTask(AddressEntryActivity.this);
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Address> call, @NonNull Throwable t) {
-                    progressDialog.dismiss();
-                }
-            });
-
+            progressEntry.setVisibility(View.VISIBLE);
+            RetrofitBuilder.updateData(address, this);
         }
         // create mode
         else {
             Address add = new Address(name, address1, address2, city, state, zipCode, 1400, 105, "1012121212");
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            Call<Address> call = retrofitAPI.createAddress(RetrofitBuilder.token, add.getFirstname(), add.getAddress1(), add.getAddress2(), add.getCity(), add.getStateName(), add.getZipcode(), add.getStateId(), add.getCountryId(), add.getPhone());
-
-            progressDialog.setTitle("Please Wait!!");
-            progressDialog.setMessage("Wait!!");
-            progressDialog.setCancelable(false);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.show();
-            call.enqueue(new Callback<Address>() {
-                @Override
-                public void onResponse(@NonNull Call<Address> call, @NonNull Response<Address> response) {
-                    Log.d("output", response + "res");
-                    AddressDisplayActivity.getInstance().addressList.add(add);
-                    startActivity(new Intent(AddressEntryActivity.this, AddressDisplayActivity.class));
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Address> call, @NonNull Throwable t) {
-                    progressDialog.dismiss();
-                    startActivity(new Intent(AddressEntryActivity.this, AddressDisplayActivity.class));
-                }
-            });
+            progressEntry.setVisibility(View.VISIBLE);
+            RetrofitBuilder.createData(add, checkBox, this);
         }
 
     }
 
+    @Override
+    public void apiCallComplete(String mode, List<Address> addressList) {
+        if (mode.equals("Update") || mode.equals("Create")) {
+            NavUtils.navigateUpFromSameTask(AddressEntryActivity.this);
+        }
+    }
 }
 

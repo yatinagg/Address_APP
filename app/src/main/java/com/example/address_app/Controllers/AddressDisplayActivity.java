@@ -1,24 +1,20 @@
 package com.example.address_app.Controllers;
 
-import static com.example.address_app.RetrofitBuilder.retrofitAPI;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.address_app.Adapter.AddressListAdapter;
-import com.example.address_app.Address;
+import com.example.address_app.Pojos.Address;
 import com.example.address_app.R;
 import com.example.address_app.RetrofitBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,11 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class AddressDisplayActivity extends AppCompatActivity implements OnButtonClickListener {
+public class AddressDisplayActivity extends AppCompatActivity implements OnButtonClickListener, ApiCallStatusChecker {
 
     public List<Address> addressList = null;
     public static List<Address> addressViews = null;
@@ -39,9 +31,11 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
     public static AddressDisplayActivity addressDisplayActivity;
     private View emptyView;
     private FloatingActionButton floatingActionButtonDisplayAddAddressDisplay;
+    private FloatingActionButton floatingActionButton;
     private ListView addressListView;
     private TextView tvBlankAddress;
     private TextView tvBlankAddressDescription;
+    private ConstraintLayout progressDisplay;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,52 +45,37 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
         ActionBar actionBar = getSupportActionBar();
         setContentView(R.layout.activity_address_display);
         setupView();
+        setupListeners();
         // providing title for the ActionBar
         if (actionBar != null)
             actionBar.setTitle(R.string.addresses);
 
 
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please Wait!!");
-        progressDialog.setMessage("Wait!!");
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
-        Call<List<Address>> call = retrofitAPI.getAddress(RetrofitBuilder.token);
-        call.enqueue(new Callback<List<Address>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Address>> call, @NonNull Response<List<Address>> response) {
-                Log.d("output", String.valueOf(response.body()));
-                if (response.isSuccessful()) {
-                    addressList = response.body();
-                    progressDialog.dismiss();
-                }
-                setData();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Address>> call, @NonNull Throwable t) {
-                // displaying an error message in toast
-                Log.d("output", "failure");
-                progressDialog.dismiss();
-                setData();
-            }
-        });
+        //ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDisplay.setVisibility(View.VISIBLE);
+        RetrofitBuilder.getAddress(this);
 
     }
 
     void setupView() {
         emptyView = findViewById(R.id.empty_view);
+        progressDisplay = findViewById(R.id.progress_display);
         floatingActionButtonDisplayAddAddressDisplay = findViewById(R.id.floating_action_button_display_add_address_display);
         addressListView = findViewById(R.id.list_view);
         tvBlankAddress = findViewById(R.id.tv_blank_address);
         tvBlankAddressDescription = findViewById(R.id.tv_blank_address_description);
-        FloatingActionButton button1 = findViewById(R.id.floating_action_button);
+        floatingActionButton = findViewById(R.id.floating_action_button);
+    }
+
+    private void setupListeners() {
         floatingActionButtonDisplayAddAddressDisplay.setOnClickListener(view -> startActivity(new Intent(view.getContext(), AddressEntryActivity.class)));
-        button1.setOnClickListener(view -> startActivity(new Intent(view.getContext(), AddressEntryActivity.class)));
+        floatingActionButton.setOnClickListener(view -> startActivity(new Intent(view.getContext(), AddressEntryActivity.class)));
     }
 
     void setData() {
+
+
+        progressDisplay.setVisibility(View.GONE);
         // blank address page
         if (addressList != null && addressList.size() != 0) {
             emptyView.setVisibility(View.GONE);
@@ -120,16 +99,10 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
     }
 
     public void setAddressListView() {
-
-
         floatingActionButtonDisplayAddAddressDisplay.setVisibility(View.VISIBLE);
         AddressDisplayActivity.addressViews = new ArrayList<>();
-
-
         AddressDisplayActivity.addressViews.addAll(addressList);
         AddressArrayAdapter = new AddressListAdapter(this, AddressDisplayActivity.addressViews, this);
-
-
         addressListView.setAdapter(AddressArrayAdapter);
     }
 
@@ -164,12 +137,27 @@ public class AddressDisplayActivity extends AppCompatActivity implements OnButto
             intent.putExtra("Mode", "Update");
             intent.putExtra("Position", position);
             intent.putExtra("Id", address.getId());
+            intent.putExtra("Default", defaultAddress);
             this.startActivity(intent);
         } else if (index == 1) {
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            RetrofitBuilder.deleteData(address, progressDialog);
+            if (defaultAddress) {
+                AddressDisplayActivity.defaultAddress = -1;
+            }
+            progressDisplay.setVisibility(View.VISIBLE);
+            RetrofitBuilder.deleteData(address);
             addressList.remove(position);
             System.out.println("Done");
+        }
+    }
+
+    @Override
+    public void apiCallComplete(String mode, List<Address> addressList) {
+        if (mode.equals("Get")) {
+            this.addressList = addressList;
+            setData();
+        } else if (mode.equals("Delete")) {
+            notifyDataChange();
+            progressDisplay.setVisibility(View.GONE);
         }
     }
 }
